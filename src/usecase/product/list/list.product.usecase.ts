@@ -15,13 +15,13 @@ export default class ListProductUseCase {
     }
 }
 
-class OutputMapper {
-    static toOutput(product: Product[]): OutputListProductDto {
+export class OutputMapper {
+    static toOutput(products: Product[]): OutputListProductDto {
         return {
-            products: product.map((product) => ({
-                id: product.id,
-                name: product.name,
-                price: product.price,
+            products: products.map((products) => ({
+                id: products.id,
+                name: products.name,
+                price: products.price,
             })),
         };
     };

@@ -1,5 +1,5 @@
 import ProductFactory from "../../../domain/product/factory/product.factory";
-import ListProductUseCase from "./list.product.usecase";
+import ListProductUseCase, { OutputMapper } from "./list.product.usecase";
 
 describe("Unit test for listing products use case", () => {
     it("should list products", async () => {
@@ -36,5 +36,10 @@ describe("Unit test for listing products use case", () => {
         expect(output.products[1].id).toBe(product2.id);
         expect(output.products[1].name).toBe(product2.name);
         expect(output.products[1].price).toBe(product2.price);
+    });
+
+    it("should throw an error when products is undefined or null", async () => {
+        expect(() => OutputMapper.toOutput(undefined)).toThrow();
+        expect(() => OutputMapper.toOutput(null)).toThrow();
     });
 });
