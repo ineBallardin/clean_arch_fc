@@ -1,8 +1,6 @@
 import ProductFactory from "../../../domain/product/factory/product.factory";
 import ListProductUseCase from "./list.product.usecase";
 
-
-
 describe("Unit test for listing products use case", () => {
     it("should list products", async () => {
         const product1 = ProductFactory.create(
@@ -25,11 +23,11 @@ describe("Unit test for listing products use case", () => {
                 findAll: jest.fn().mockReturnValue(Promise.resolve([product1, product2])),
             };
         };
-        
+
         const repository = MockRepository();
         const productUsecase = new ListProductUseCase(repository);
 
-        const output = await productUsecase.execute({});
+        const output = await productUsecase.execute();
 
         expect(output.products.length).toBe(2);
         expect(output.products[0].id).toBe(product1.id);

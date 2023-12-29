@@ -42,7 +42,7 @@ describe("Test for listing customer use case", () => {
         await productRepository.create(expectedProductInList)
         await productRepository.create(productForListingTest)
 
-        const output = await productUsecase.execute({});
+        const output = await productUsecase.execute();
 
         expect(output.products[0]).toMatchObject({
             id: expectedProductInList.id,
