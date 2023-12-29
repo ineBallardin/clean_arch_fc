@@ -28,5 +28,11 @@ describe("Unit test for product update use case", () => {
         const output = await productUpdateUseCase.execute(input);
 
         expect(output).toEqual(input);
-    })
-})
+        expect(productRepository.find).toHaveBeenCalledWith(input.id);
+        expect(productRepository.update).toHaveBeenCalledWith(expect.objectContaining({
+            _id: input.id,
+            _name: input.name,
+            _price: input.price
+        }));
+    });
+});
