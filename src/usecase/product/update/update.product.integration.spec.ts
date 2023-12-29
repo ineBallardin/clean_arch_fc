@@ -41,8 +41,13 @@ describe("Test for product update use case", () => {
             price: 15.90
         };
 
-        const output = await updateProduct.execute(input);
+        await updateProduct.execute(input);
 
-        expect(output).toEqual(input);
+        const updatedProduct = await productRepository.find(product.id);
+
+        expect(updatedProduct).toMatchObject({
+            name: input.name,
+            price: input.price
+        });
     });
 });
