@@ -3,13 +3,13 @@ import ListProductUseCase, { OutputMapper } from "./list.product.usecase";
 
 describe("Unit test for listing products use case", () => {
     it("should list products", async () => {
-        const product1 = ProductFactory.create(
+        const firstProduct = ProductFactory.create(
             "a",
             "Product A",
             53.90,
         );
         
-        const product2 = ProductFactory.create(
+        const secondProduct = ProductFactory.create(
             "b",
             "Product B",
             106.10,
@@ -20,26 +20,26 @@ describe("Unit test for listing products use case", () => {
                 create: jest.fn(),
                 find: jest.fn(),
                 update: jest.fn(),
-                findAll: jest.fn().mockReturnValue(Promise.resolve([product1, product2])),
+                findAll: jest.fn().mockReturnValue(Promise.resolve([firstProduct, secondProduct])),
             };
         };
 
-        const repository = MockRepository();
-        const productUsecase = new ListProductUseCase(repository);
+        const productRepository = MockRepository();
+        const productUsecase = new ListProductUseCase(productRepository);
 
         const output = await productUsecase.execute();
 
         expect(output.products.length).toBe(2);
 
         expect(output.products[0]).toMatchObject({
-            id: product1.id,
-            name: product1.name,
-            price: product1.price
+            id: firstProduct.id,
+            name: firstProduct.name,
+            price: firstProduct.price
           });
           expect(output.products[1]).toMatchObject({
-            id: product2.id,
-            name: product2.name,
-            price: product2.price
+            id: secondProduct.id,
+            name: secondProduct.name,
+            price: secondProduct.price
           });
     });
 });

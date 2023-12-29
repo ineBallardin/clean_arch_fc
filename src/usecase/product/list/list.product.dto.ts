@@ -4,6 +4,6 @@ type Product = {
     price: number;
 }
 
-export interface OutputListProductDto {
+export interface OutputListProductsDto {
     products: Product[];
 }
