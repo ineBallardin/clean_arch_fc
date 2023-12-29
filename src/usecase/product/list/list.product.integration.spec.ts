@@ -27,29 +27,32 @@ describe("Test for listing customer use case", () => {
         const productRepository = new ProductRepository();
         const productUsecase = new ListProductUseCase(productRepository);
 
-        const product1 = new Product(
+        const expectedProductInList = new Product(
             "a",
             "Product A",
             53.90,
         );
-
-        const product2 = new Product(
+        
+        const productForListingTest = new Product(
             "b",
             "Product B",
             106.10,
         );
-            
-        await productRepository.create(product1)
-        await productRepository.create(product2)
+        
+        await productRepository.create(expectedProductInList)
+        await productRepository.create(productForListingTest)
 
         const output = await productUsecase.execute({});
 
-        expect(output.products.length).toBe(2);
-        expect(output.products[0].id).toBe(product1.id);
-        expect(output.products[0].name).toBe(product1.name);
-        expect(output.products[0].price).toBe(product1.price);
-        expect(output.products[1].id).toBe(product2.id);
-        expect(output.products[1].name).toBe(product2.name);
-        expect(output.products[1].price).toBe(product2.price);
+        expect(output.products[0]).toMatchObject({
+            id: expectedProductInList.id,
+            name: expectedProductInList.name,
+            price: expectedProductInList.price
+          });
+          expect(output.products[1]).toMatchObject({
+            id: productForListingTest.id,
+            name: productForListingTest.name,
+            price: productForListingTest.price
+          });
     });
 });
