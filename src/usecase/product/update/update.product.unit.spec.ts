@@ -1,38 +1,38 @@
 import ProductFactory from "../../../domain/product/factory/product.factory";
 import UpdateProductUseCase from "./update.product.usecase";
 
-const product = ProductFactory.create(
-    "a", "Product A", 12.90
-);
-
-const input = {
-    id: product.id,
-    name: "Product A Updated",
-    price: 15.90
-};
-
-const MockRepository = () => {
-    return {
-        create: jest.fn(),
-        findAll: jest.fn(),
-        find: jest.fn().mockReturnValue(Promise.resolve(product)),
-        update: jest.fn(),
-    };
-};
 
 describe("Unit test for product update use case", () => {
     it("should update a product", async () => {
-        const productRepository = MockRepository();
-        const productUpdateUseCase = new UpdateProductUseCase(productRepository);
+        const product = ProductFactory.create(
+            "a", "Product A", 12.90
+        );
+        
+        const updatedProductData = {
+            id: product.id,
+            name: "Product A Updated",
+            price: 15.90
+        };
+        
+        const createMockProductRepository = () => {
+            return {
+                create: jest.fn(),
+                findAll: jest.fn(),
+                find: jest.fn().mockReturnValue(Promise.resolve(product)),
+                update: jest.fn(),
+            };
+        };
+        const productRepository = createMockProductRepository();
+        const updateProduct = new UpdateProductUseCase(productRepository);
 
-        const output = await productUpdateUseCase.execute(input);
+        const updatedProductResult = await updateProduct.execute(updatedProductData);
 
-        expect(output).toEqual(input);
-        expect(productRepository.find).toHaveBeenCalledWith(input.id);
+        expect(updatedProductResult).toEqual(updatedProductData);
+        expect(productRepository.find).toHaveBeenCalledWith(updatedProductData.id);
         expect(productRepository.update).toHaveBeenCalledWith(expect.objectContaining({
-            _id: input.id,
-            _name: input.name,
-            _price: input.price
+            _id: updatedProductData.id,
+            _name: updatedProductData.name,
+            _price: updatedProductData.price
         }));
     });
 });
