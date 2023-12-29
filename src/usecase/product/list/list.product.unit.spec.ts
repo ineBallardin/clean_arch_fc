@@ -1,29 +1,31 @@
 import ProductFactory from "../../../domain/product/factory/product.factory";
 import ListProductUseCase from "./list.product.usecase";
 
-const product1 = ProductFactory.create(
-    "a",
-    "Product A",
-    53.90,
-);
 
-const product2 = ProductFactory.create(
-    "b",
-    "Product B",
-    106.10,
-);
-
-const MockRepository = () => {
-    return {
-        create: jest.fn(),
-        find: jest.fn(),
-        update: jest.fn(),
-        findAll: jest.fn().mockReturnValue(Promise.resolve([product1, product2])),
-    };
-};
 
 describe("Unit test for listing products use case", () => {
     it("should list products", async () => {
+        const product1 = ProductFactory.create(
+            "a",
+            "Product A",
+            53.90,
+        );
+        
+        const product2 = ProductFactory.create(
+            "b",
+            "Product B",
+            106.10,
+        );
+        
+        const MockRepository = () => {
+            return {
+                create: jest.fn(),
+                find: jest.fn(),
+                update: jest.fn(),
+                findAll: jest.fn().mockReturnValue(Promise.resolve([product1, product2])),
+            };
+        };
+        
         const repository = MockRepository();
         const productUsecase = new ListProductUseCase(repository);
 
