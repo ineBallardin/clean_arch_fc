@@ -30,14 +30,21 @@ describe("Unit test for listing products use case", () => {
         const output = await productUsecase.execute();
 
         expect(output.products.length).toBe(2);
-        expect(output.products[0].id).toBe(product1.id);
-        expect(output.products[0].name).toBe(product1.name);
-        expect(output.products[0].price).toBe(product1.price);
-        expect(output.products[1].id).toBe(product2.id);
-        expect(output.products[1].name).toBe(product2.name);
-        expect(output.products[1].price).toBe(product2.price);
-    });
 
+        expect(output.products[0]).toMatchObject({
+            id: product1.id,
+            name: product1.name,
+            price: product1.price
+          });
+          expect(output.products[1]).toMatchObject({
+            id: product2.id,
+            name: product2.name,
+            price: product2.price
+          });
+    });
+});
+
+describe("Unit test for OutputMapper in listing products use case", () => {
     it("should throw an error when products is undefined or null", async () => {
         expect(() => OutputMapper.toOutput(undefined)).toThrow();
         expect(() => OutputMapper.toOutput(null)).toThrow();
