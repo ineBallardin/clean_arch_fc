@@ -35,19 +35,19 @@ describe("Test for product update use case", () => {
 
         await productRepository.create(product);
 
-        const input = {
+        const updatedProductData = {
             id: product.id,
             name: "Product A Updated",
             price: 15.90
         };
 
-        await updateProduct.execute(input);
+        await updateProduct.execute(updatedProductData);
 
-        const updatedProduct = await productRepository.find(product.id);
+        const updatedProductResult = await productRepository.find(product.id);
 
-        expect(updatedProduct).toMatchObject({
-            name: input.name,
-            price: input.price
+        expect(updatedProductResult).toMatchObject({
+            name: updatedProductData.name,
+            price: updatedProductData.price
         });
     });
 });
