@@ -25,7 +25,7 @@ describe("Test for listing customer use case", () => {
 
     it("should list products", async () => {
         const productRepository = new ProductRepository();
-        const productUsecase = new ListProductUseCase(productRepository);
+        const listProduct = new ListProductUseCase(productRepository);
 
         const firstProduct = new Product(
             "a",
@@ -42,7 +42,7 @@ describe("Test for listing customer use case", () => {
         await productRepository.create(firstProduct)
         await productRepository.create(secondProduct)
 
-        const output = await productUsecase.execute();
+        const output = await listProduct.execute();
 
         expect(output.products[0]).toMatchObject({
             id: firstProduct.id,
