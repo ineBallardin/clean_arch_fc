@@ -25,7 +25,7 @@ describe("Test for product update use case", () => {
 
     it("should update a product", async () => {
         const productRepository = new ProductRepository();
-        const productUsecase = new UpdateProductUseCase(productRepository);
+        const updateProduct = new UpdateProductUseCase(productRepository);
 
         const product = new Product(
             "a",
@@ -41,7 +41,7 @@ describe("Test for product update use case", () => {
             price: 15.90
         };
 
-        const output = await productUsecase.execute(input);
+        const output = await updateProduct.execute(input);
 
         expect(output).toEqual(input);
     });
