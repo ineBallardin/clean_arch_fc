@@ -38,7 +38,7 @@ describe("E2E test for customer", () => {
     expect(response.status).toBe(500);
   });
 
-  it("should list all customer", async () => {
+  it("should list all customers", async () => {
     const response = await request(app)
       .post("/customer")
       .send({
@@ -51,6 +51,7 @@ describe("E2E test for customer", () => {
         },
       });
     expect(response.status).toBe(200);
+
     const response2 = await request(app)
       .post("/customer")
       .send({
@@ -68,6 +69,7 @@ describe("E2E test for customer", () => {
 
     expect(listResponse.status).toBe(200);
     expect(listResponse.body.customers.length).toBe(2);
+
     const customer = listResponse.body.customers[0];
     expect(customer.name).toBe("John");
     expect(customer.address.street).toBe("Street");
@@ -95,8 +97,5 @@ describe("E2E test for customer", () => {
     expect(listResponseXML.text).toContain(`<name>Jane</name>`);
     expect(listResponseXML.text).toContain(`<street>Street 2</street>`);
     expect(listResponseXML.text).toContain(`</customers>`);
-    
-
-    
   });
 });
