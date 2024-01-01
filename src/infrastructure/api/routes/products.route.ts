@@ -17,7 +17,7 @@ productsRoute.post("/", async (req: Request, res: Response) => {
         const output = await products.execute(productsDto);
         res.send(output);
     } catch (err) {
-        res.status(500).send(err);
+        res.status(500).json({ error: (err as Error).message });
     };
 });
 
