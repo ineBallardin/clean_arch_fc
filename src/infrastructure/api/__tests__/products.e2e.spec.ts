@@ -46,7 +46,7 @@ describe("E2E test for products functionalities", () => {
         expect(response.body.error).toBe("Price is required");
     });
 
-    it("should list all products", async () => {
+    it("should return the same output in both JSON and XML formats", async () => {
         const listProductsResponse = await request(app).get("/products").send();
         expect(listProductsResponse.status).toBe(200);
         expect(listProductsResponse.body.products.length).toBe(2);
