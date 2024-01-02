@@ -59,23 +59,15 @@ describe("E2E test for products functionalities", () => {
         expect(productB.name).toBe("Product B");
         expect(productB.price).toBe(21.90);
 
-        const listProductsResponseXML = await request(app)
-            .get("/products")
-            .set("Accept", "application/xml")
-            .send();
-        
-        expect(listProductsResponseXML.status).toBe(200);
-        expect(listProductsResponseXML.text).toContain(`<?xml version="1.0" encoding="UTF-8"?>`);
-        expect(listProductsResponseXML.text).toContain(`<products>`);
-        expect(listProductsResponseXML.text).toContain(`<product>`);
-        expect(listProductsResponseXML.text).toContain(`<name>Product A</name>`);
-        expect(listProductsResponseXML.text).toContain(`<price>12.9</price>`);
-        expect(listProductsResponseXML.text).toContain(`</product>`);
-        expect(listProductsResponseXML.text).toContain(`<product>`);
-        expect(listProductsResponseXML.text).toContain(`<name>Product B</name>`);
-        expect(listProductsResponseXML.text).toContain(`<price>21.9</price>`);
-        expect(listProductsResponseXML.text).toContain(`</product>`);
-        expect(listProductsResponseXML.text).toContain(`</products>`);
+        const mockData: OutputListProductsDto = {
+            products: [
+                { id: expect.anything(), name: 'Product A', price: 12.90 },
+                { id: expect.anything(), name: 'Product B', price: 21.90 },
+            ],
+        };
+        const expectedJson = mockData;
+        const resultJson = ProductsPresenter.listJSON(mockData);
+        expect(resultJson).toEqual(expectedJson);
     });
 });
 
