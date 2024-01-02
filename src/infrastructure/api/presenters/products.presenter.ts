@@ -28,4 +28,11 @@ export default class ProductsPresenter {
             throw error;
         }
     };
+    static listJSON(data: OutputListProductsDto): any {
+        return data.products.map(product => ({
+            id: product.id,
+            name: product.name,
+            price: product.price
+        }));
+     }
 };
