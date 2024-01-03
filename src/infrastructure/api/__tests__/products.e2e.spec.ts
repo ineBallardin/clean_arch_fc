@@ -50,25 +50,25 @@ describe("E2E test for products functionalities", () => {
         const listProductsResponse = await request(app).get("/products").send();
         expect(listProductsResponse.status).toBe(200);
         expect(listProductsResponse.body.products.length).toBe(2);
-
+      
         const productA = listProductsResponse.body.products[0];
         expect(productA.name).toBe("Product A");
         expect(productA.price).toBe(12.90);
-
+      
         const productB = listProductsResponse.body.products[1];
         expect(productB.name).toBe("Product B");
         expect(productB.price).toBe(21.90);
-
+      
         const mockData: OutputListProductsDto = {
             products: [
                 { id: expect.anything(), name: 'Product A', price: 12.90 },
                 { id: expect.anything(), name: 'Product B', price: 21.90 },
             ],
         };
-        const expectedJson = mockData;
+        const expectedJson = mockData.products;
         const resultJson = ProductsPresenter.listJSON(mockData);
         expect(resultJson).toEqual(expectedJson);
-    });
+      });
 });
 
 describe('ProductsPresenter', () => {
