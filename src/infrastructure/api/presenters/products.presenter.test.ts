@@ -60,4 +60,23 @@ describe('ProductsPresenter', () => {
             }).toThrow(testError);
         });
     });
+    describe('listJSON', () => {
+        it('should convert the outputListProductsDto to a JSON array of objects', () => {
+          const data: OutputListProductsDto = {
+            products: [
+              { id: '1', name: 'Product 1', price: 100 },
+              { id: '2', name: 'Product 2', price: 200 }
+            ]
+          };
+      
+          const expectedResult = [
+            { id: '1', name: 'Product 1', price: 100 },
+            { id: '2', name: 'Product 2', price: 200 }
+          ];
+      
+          const actualResult = ProductsPresenter.listJSON(data);
+      
+          expect(actualResult).toEqual(expectedResult);
+        });
+      });
 });
