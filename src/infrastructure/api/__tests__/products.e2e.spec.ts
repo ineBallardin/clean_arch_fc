@@ -3,13 +3,9 @@ import request from "supertest";
 import ProductsPresenter from "../presenters/products.presenter";
 import { OutputListProductsDto } from "../../../usecase/product/list/list.product.dto";
 
-const PRODUCT_NAME_A = "Product A";
-const PRODUCT_PRICE_A = 12.90;
-const PRODUCT_NAME_B = "Product B";
-const PRODUCT_PRICE_B = 21.90;
 
 describe("E2E test for products functionalities", () => {
-    beforeAll(async () => {
+    beforeEach(async () => {
         await sequelize.sync({ force: true });
     });
 
@@ -17,6 +13,7 @@ describe("E2E test for products functionalities", () => {
         await sequelize.close();
     });
 
+    
     const createProduct = async (name: string, price: number) => {
         return await request(app)
             .post("/products")
@@ -25,14 +22,13 @@ describe("E2E test for products functionalities", () => {
                 price: price,
             });
       };
-
     it("should create products successfully", async () => {
-        let response = await createProduct(PRODUCT_NAME_A, PRODUCT_PRICE_A);
+        let response = await createProduct("Product A", 12.90);
         expect(response.status).toBe(200);
         expect(response.body.name).toBe("Product A");
         expect(response.body.price).toBe(12.90);
 
-        response = await createProduct(PRODUCT_NAME_B, PRODUCT_PRICE_B);
+        response = await createProduct("Product B", 21.90);
         expect(response.status).toBe(200);
         expect(response.body.name).toBe("Product B");
         expect(response.body.price).toBe(21.90);
@@ -47,6 +43,16 @@ describe("E2E test for products functionalities", () => {
     });
 
     it("should return the same output in both JSON and XML formats", async () => {
+        let response = await createProduct("Product A", 12.90);
+        expect(response.status).toBe(200);
+        expect(response.body.name).toBe("Product A");
+        expect(response.body.price).toBe(12.90);
+
+        response = await createProduct("Product B", 21.90);
+        expect(response.status).toBe(200);
+        expect(response.body.name).toBe("Product B");
+        expect(response.body.price).toBe(21.90);
+        
         const listProductsResponse = await request(app).get("/products").send();
         expect(listProductsResponse.status).toBe(200);
         expect(listProductsResponse.body.products.length).toBe(2);
@@ -68,6 +74,22 @@ describe("E2E test for products functionalities", () => {
         const expectedJson = mockData.products;
         const resultJson = ProductsPresenter.listJSON(mockData);
         expect(resultJson).toEqual(expectedJson);
+     
+        const productsXml = ProductsPresenter.listXML(listProductsResponse.body);
+
+        const expectedXml = `<?xml version="1.0" encoding="UTF-8"?>
+<products>
+  <product>
+    <id>${listProductsResponse.body.products[0].id}</id>
+    <name>Product A</name>
+    <price>12.9</price>
+    <id>${listProductsResponse.body.products[1].id}</id>
+    <name>Product B</name>
+    <price>21.9</price>
+  </product>
+</products>`;
+        
+        expect(productsXml).toEqual(expectedXml);
       });
 });
 
@@ -93,4 +115,4 @@ describe('ProductsPresenter', () => {
         const result = ProductsPresenter.listXML(mockData);
         expect(result).toEqual(expectedXml);
     });
- });
+});
