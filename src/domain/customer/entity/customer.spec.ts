@@ -5,7 +5,7 @@ import Customer from "./customer";
 describe("Customer unit tests", () => {
   it("should throw error when id is empty", () => {
     try {
-      let customer = new Customer("", "John");
+      new Customer("", "John");
     } catch (error) {
       const notificationError = error as NotificationError;
       expect(notificationError).toBeInstanceOf(NotificationError);
@@ -18,7 +18,7 @@ describe("Customer unit tests", () => {
 
   it("should throw error when name is empty", () => {
     try {
-      let customer = new Customer("123", "");
+      new Customer("123", "");
     } catch (error) {
       const notificationError = error as NotificationError;
       expect(notificationError).toBeInstanceOf(NotificationError);
@@ -29,9 +29,9 @@ describe("Customer unit tests", () => {
     };
   });
 
-  it("should throw error when name is and id are empty", () => {
+  it("should throw error when name and id are empty", () => {
     try {
-      let customer = new Customer("", "");
+      new Customer("", "");
     } catch (error) {
       const notificationError = error as NotificationError;
       expect(notificationError).toBeInstanceOf(NotificationError);
