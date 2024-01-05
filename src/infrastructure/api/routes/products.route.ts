@@ -4,7 +4,7 @@ import ProductRepository from '../../product/repository/sequelize/product.reposi
 import ListProductUseCase from '../../../usecase/product/list/list.product.usecase';
 import ProductsPresenter from '../presenters/products.presenter';
 
-const productRepository = new ProductRepository();
+export const productRepository = new ProductRepository();
 
 export function createProductsRoute(productRepository: ProductRepository) {
     const productsRoute = express.Router();
