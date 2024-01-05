@@ -28,11 +28,26 @@ describe("Unit tests for notifications", () => {
     };
     notification.addError(error3);
 
+    const error4 = {
+      message: "error message 4",
+      context: "product"
+    }
+    notification.addError(error4)
+
+    const error5 = {
+      message: "error message 5",
+      context: "product"
+    }
+    notification.addError(error5)
+
     expect(notification.messages("customer")).toBe(
       "customer: error message,customer: error message 2,"
     );
+    expect(notification.messages("product")).toBe(
+      "product: error message 4,product: error message 5,"
+    );
     expect(notification.messages()).toBe(
-      "customer: error message,customer: error message 2,order: error message 3,"
+      "customer: error message,customer: error message 2,order: error message 3,product: error message 4,product: error message 5,"
     );
   });
 
