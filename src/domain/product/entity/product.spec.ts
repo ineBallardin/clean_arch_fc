@@ -1,22 +1,57 @@
+import NotificationError from "../../@shared/notification/notification.error";
 import Product from "./product";
 
 describe("Product unit tests", () => {
   it("should throw error when id is empty", () => {
-    expect(() => {
-      const product = new Product("", "Product 1", 100);
-    }).toThrowError("Id is required");
+    try {
+      new Product("", "Product 1", 100);
+    } catch (error) {
+      const notificationError = error as NotificationError;
+      expect(notificationError).toBeInstanceOf(NotificationError);
+      expect(notificationError.errors).toContainEqual({
+        context: "product",
+        message: "Id is required"
+      });
+    };
   });
 
   it("should throw error when name is empty", () => {
-    expect(() => {
-      const product = new Product("123", "", 100);
-    }).toThrowError("Name is required");
+    try {
+      new Product("123", "", 100);
+    } catch (error) {
+      const notificationError = error as NotificationError;
+      expect(notificationError).toBeInstanceOf(NotificationError);
+      expect(notificationError.errors).toContainEqual({
+        context: "product",
+        message: "Name is required"
+      });
+    }
   });
 
   it("should throw error when price is less than zero", () => {
-    expect(() => {
-      const product = new Product("123", "Name", -1);
-    }).toThrowError("Price must be greater than zero");
+    let errorThrown = false;
+    try {
+      new Product("123", "Name", -1);
+    } catch (error) {
+      errorThrown = true;
+      const notificationError = error as NotificationError;
+      expect(notificationError).toBeInstanceOf(NotificationError);
+      expect(notificationError.errors).toContainEqual({
+        context: "product",
+        message: "Price must be greater than zero"
+      });
+    };
+    expect(errorThrown).toBe(true);
+  });
+
+  it("should throw error ONLY when price is less than zero", () => {
+    let errorThrown = false;
+    try {
+      new Product("123", "Name", 1);
+    } catch (error) {
+      errorThrown = true;
+    }
+    expect(errorThrown).toBe(false);
   });
 
   it("should change name", () => {

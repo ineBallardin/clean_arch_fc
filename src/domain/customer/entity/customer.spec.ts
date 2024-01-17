@@ -18,6 +18,7 @@ describe("Customer unit tests", () => {
 
   it("should throw error when name is empty", () => {
     try {
+
       new Customer("123", "");
     } catch (error) {
       const notificationError = error as NotificationError;
