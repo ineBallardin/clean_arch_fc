@@ -1,23 +1,52 @@
+import NotificationError from "../../@shared/notification/notification.error";
 import Address from "../value-object/address";
 import Customer from "./customer";
 
 describe("Customer unit tests", () => {
   it("should throw error when id is empty", () => {
-    expect(() => {
-      let customer = new Customer("", "John");
-    }).toThrowError("customer: Id is required");
+    try {
+      new Customer("", "John");
+    } catch (error) {
+      const notificationError = error as NotificationError;
+      expect(notificationError).toBeInstanceOf(NotificationError);
+      expect(notificationError.errors).toContainEqual({
+        context: "customer",
+        message: "Id is required"
+      });
+    };
   });
 
   it("should throw error when name is empty", () => {
-    expect(() => {
-      let customer = new Customer("123", "");
-    }).toThrowError("customer: Name is required");
+    try {
+      new Customer("123", "");
+    } catch (error) {
+      const notificationError = error as NotificationError;
+      expect(notificationError).toBeInstanceOf(NotificationError);
+      expect(notificationError.errors).toContainEqual({
+        context: "customer",
+        message: "Name is required"
+      });
+    };
   });
 
-  it("should throw error when name is and id are empty", () => {
-    expect(() => {
-      let customer = new Customer("", "");
-    }).toThrowError("customer: Id is required,customer: Name is required");
+  it("should throw error when name and id are empty", () => {
+    try {
+      new Customer("", "");
+    } catch (error) {
+      const notificationError = error as NotificationError;
+      expect(notificationError).toBeInstanceOf(NotificationError);
+      expect(notificationError.errors).toHaveLength(2);
+      expect(notificationError.errors).toEqual([
+        {
+          context: "customer",
+          message: "Id is required"
+        },
+        {
+          context: "customer",
+          message: "Name is required"
+        }
+      ]);
+    };
   });
 
   it("should change name", () => {
