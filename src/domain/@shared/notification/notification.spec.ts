@@ -44,7 +44,7 @@ describe("Unit tests for notifications", () => {
       "customer: error message,customer: error message 2,"
     );
     expect(notification.messages()).toBe(
-      "customer: error message,customer: error message 2,order: error message 3,"
+      "customer: error message,customer: error message 2,order: error message 3,product: error message 4,product: error message 5,"
     );
   });
 
