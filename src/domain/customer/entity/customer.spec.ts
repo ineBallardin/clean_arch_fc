@@ -29,7 +29,7 @@ describe("Customer unit tests", () => {
     };
   });
 
-  it("should throw error when name is and id are empty", () => {
+  it("should throw error when name and id are empty", () => {
     try {
       new Customer("", "");
     } catch (error) {
