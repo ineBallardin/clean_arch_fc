@@ -54,6 +54,34 @@ describe("Product unit tests", () => {
     expect(errorThrown).toBe(false);
   });
 
+  it("should accumulate two errors when name and price are null or undefined", () => {
+    expect(() => {
+      new Product("1", "", 0);
+    }).toThrowError(NotificationError);
+
+    try {
+      new Product("1", "", 0);
+    } catch (error) {
+      expect(error).toBeInstanceOf(NotificationError);
+      const notificationError = error as NotificationError;
+      const errors = notificationError.errors;
+      expect(errors.length).toBe(2);
+
+      expect(errors).toEqual(
+        expect.arrayContaining([
+          expect.objectContaining({
+            message: "Name is required",
+            context: "product",
+          }),
+          expect.objectContaining({
+            message: "Price must be greater than zero",
+            context: "product",
+          }),
+        ])
+      );
+    }
+  });
+
   it("should change name", () => {
     const product = new Product("123", "Product 1", 100);
     product.changeName("Product 2");
